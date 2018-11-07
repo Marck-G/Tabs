@@ -2,31 +2,72 @@ package org.medion.mk_dev.tabs;
 
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TabHost;
 
 import org.medion.mk_dev.tabs.list.ChatItem;
+import org.medion.mk_dev.tabs.list.Contacto;
+import org.medion.mk_dev.tabs.list.Llamada;
 import org.medion.mk_dev.tabs.list.adapters.ChatAdapter;
+import org.medion.mk_dev.tabs.list.adapters.ContactoAdapter;
+import org.medion.mk_dev.tabs.list.adapters.LlamadaAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 	private ListView chatList;
+	private ListView contactList;
+	private ListView llamadaList;
 
 	@RequiresApi( api = Build.VERSION_CODES.LOLLIPOP )
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+	protected void onCreate( Bundle savedInstanceState ) {
+		super.onCreate( savedInstanceState );
+		setContentView( R.layout.activity_main );
+		Toolbar toolbar = ( Toolbar ) findViewById( R.id.toolbar );
+		setSupportActionBar( toolbar );
+		/**
+		FloatingActionButton fab = ( FloatingActionButton ) findViewById( R.id.fab );
+		fab.setOnClickListener( new View.OnClickListener() {
+			@Override
+			public void onClick( View view ) {
+				Snackbar.make( view, "Replace with your own action", Snackbar.LENGTH_LONG )
+						.setAction( "Action", null ).show();
+			}
+		} );*/
 		setTabs();
 		setList();
+		setContactos();
+		setLlamadas();
 
 	}
+
+	@RequiresApi( api = Build.VERSION_CODES.LOLLIPOP )
+	private void setContactos(){
+		contactList = findViewById( R.id.contactos );
+		Contacto[] data = {
+				new Contacto()
+						.setUserImg( getDrawable( R.mipmap.ic_user_none ) )
+						.setUserName( "Ana" )
+						.setUserState( "Durmiendo" ),
+				new Contacto().setUserImg( getDrawable( R.mipmap.ic_user_1 ) )
+						.setUserState( "Hey there, I'm using WhatsApp!" )
+						.setUserName( "Goio" ),
+				new Contacto().setUserName( "Juan" )
+						.setUserState( "?????" )
+						.setUserImg( getDrawable( R.mipmap.ic_user_none ) )};
+		ContactoAdapter c = new ContactoAdapter( getApplicationContext(), data );
+		contactList.setAdapter( c );
+	}
+
 
 	@RequiresApi( api = Build.VERSION_CODES.LOLLIPOP )
 	private void setList() {
@@ -67,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
 		spec.setContent(R.id.tab2);
 		spec.setIndicator("ESTADOS");
 		tabs.addTab(spec);
+		spec = tabs.newTabSpec( "llamadas" );
+		spec.setContent( R.id.tab3 );
+		spec.setIndicator( "LLAMADAS" );
+		tabs.addTab( spec );
 		tabs.setCurrentTab(0);
 		// evento para las pestañas
 		tabs.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
@@ -75,4 +120,22 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 	}
+
+	@RequiresApi( api = Build.VERSION_CODES.LOLLIPOP )
+	private void setLlamadas(){
+		llamadaList = findViewById( R.id.llamadas );
+		Llamada[] datos;
+		datos = new Llamada[]{
+				new Llamada().setCallDate( new Date( 2018,9,20 ) )
+						.setCallUserName( "Ana" )
+						.setCallUserImg( getDrawable( R.mipmap.ic_user_none ) ),
+				new Llamada().setCallUserImg( getDrawable( R.mipmap.ic_user_1 ) )
+						.setCallUserName( "Goio" )
+						.setCallDate( new Date() )
+		};
+		LlamadaAdapter a = new LlamadaAdapter( getApplicationContext(), datos );
+		llamadaList.setAdapter( a );
+
+	}
+
 }
