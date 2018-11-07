@@ -1,5 +1,6 @@
 package org.medion.mk_dev.tabs;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,7 +8,10 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.ActionMenuItemView;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -48,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
 		setContactos();
 		setLlamadas();
 
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu( Menu menu ) {
+		getMenuInflater().inflate( R.menu.menu_main, menu );
+		return true;
 	}
 
 	@RequiresApi( api = Build.VERSION_CODES.LOLLIPOP )
@@ -115,8 +125,17 @@ public class MainActivity extends AppCompatActivity {
 		tabs.setCurrentTab(0);
 		// evento para las pestañas
 		tabs.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+			@SuppressLint( "RestrictedApi" )
+			@RequiresApi( api = Build.VERSION_CODES.LOLLIPOP )
 			@Override
 			public void onTabChanged(String s) {
+				ActionMenuItemView v = findViewById( R.id.add );
+				if( s.equals( "chat" ) ){
+					v.setIcon( getDrawable( R.drawable.ic_msg ) );
+				} else if ( s.equals( "estados" ) )
+					v.setIcon( getDrawable( R.drawable.ic_add ) );
+				else if ( s.equals( "llamadas" ) )
+					v.setIcon( getDrawable( R.drawable.ic_call ) );
 			}
 		});
 	}
