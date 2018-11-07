@@ -38,10 +38,15 @@ public class MainActivity extends AppCompatActivity {
 				.setUserName( "Juan" )
 				.setUserImg( getDrawable( R.mipmap.ic_user_none ) ));
 		its.add( new ChatItem().setLastMesage( "Que tal?" )
-				.setLastTime( new Date( 18,9, 20 ) )
+				.setLastTime( new Date( 18,9, 8 ) )
 				.setUserName( "Ana" )
 				.setMsgCount( 3 )
 				.setUserImg( getDrawable( R.mipmap.ic_user_none ) ));
+		its.add( new ChatItem().setLastMesage( "Good Morning!" )
+				.setLastTime( new Date( 18,10, 6 ) )
+				.setUserName( "Goio" )
+				.setMsgCount( 1 )
+				.setUserImg( getDrawable( R.mipmap.ic_user_1 ) ));
 
 		ChatItem[] datos = new ChatItem[its.size()];
 		its.toArray( datos );
